@@ -1,0 +1,11 @@
+{
+    "username"  : "<%= username %>",
+    "password"  : "<%= password %>",
+    "siteUrl"   : "<%= url %>",
+    "dir"       : {
+        "collection": "sites/devEnvironment",
+        "branding"  : "_catalogs/masterpage/<%= client %>",
+        "webparts"  : "SiteAssets/webparts",
+        "config"    : "SiteAssets/source"
+    }
+}
