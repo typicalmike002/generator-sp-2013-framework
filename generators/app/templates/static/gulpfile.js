@@ -37,7 +37,7 @@ require('matchdep').filterDev('gulp*').forEach(function( module ) {
 /**
  * gulp watch
  *
- * - Multible push tasks are used to reduce the
+ * - Multiple push tasks are used to reduce the
  *   amount of time each change will takes to compile.
  */
 
@@ -310,7 +310,7 @@ gulp.task('push:sass', function(){
  * - Combines all push tasks
  */
 
-gulp.task('push:sharepoint', ['push:css', 'push:js', 'push:webparts', 'push:misc', 'push:masterpage', 'push:config']);
+gulp.task('push:sharepoint', ['push:css', 'push:js', 'push:webparts', 'push:misc', 'push:masterpage', 'push:config', 'push:libraries']);
 
 
 
