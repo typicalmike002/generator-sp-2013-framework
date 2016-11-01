@@ -2,8 +2,6 @@
 
 This HTML file has been associated with a SharePoint Master Page (.master file) carrying the same name.  While the files remain associated, you will not be allowed to edit the .master file, and any rename, move, or deletion operations will be reciprocated.
 
-To build the master page directly from this HTML file, simply edit the page as you normally would.  Use the Snippet Generator at https://microexcel1.sharepoint.com/sites/devEnvironment/_layouts/15/ComponentHome.aspx?Url=https%3A%2F%2Fmicroexcel1%2Esharepoint%2Ecom%2Fsites%2FdevEnvironment%2F%5Fcatalogs%2Fmasterpage%2Fcustom%2Emaster to create and customize useful SharePoint entities, then copy and paste them as HTML snippets into your HTML code.   All updates to this file will automatically sync to the associated Master Page.
-
 -->
 <!-- _lcid="1033" _version="16.0.5409" _dal="1" -->
 <!-- _LocalBinding -->
@@ -12,8 +10,8 @@ To build the master page directly from this HTML file, simply edit the page as y
     <head>
         <meta http-equiv="X-UA-Compatible" content="IE=10" />
         <!--CS: Start Head Snippet-->
-        <!--SPM:<%@Register Tagprefix="SharePoint" Namespace="Microsoft.SharePoint.WebControls" Assembly="Microsoft.SharePoint, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c"%>-->
-        <!--SPM:<%@Register Tagprefix="WebPartPages" Namespace="Microsoft.SharePoint.WebPartPages" Assembly="Microsoft.SharePoint, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c"%>-->
+        <!--SPM:<%- openTag %>Register Tagprefix="SharePoint" Namespace="Microsoft.SharePoint.WebControls" Assembly="Microsoft.SharePoint, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c"<%- closeTag %>-->
+        <!--SPM:<%- openTag %>Register Tagprefix="WebPartPages" Namespace="Microsoft.SharePoint.WebPartPages" Assembly="Microsoft.SharePoint, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c"<%- closeTag %>-->
         <!--SID:00 -->
         <meta name="GENERATOR" content="Microsoft SharePoint" />
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -27,9 +25,9 @@ To build the master page directly from this HTML file, simply edit the page as y
         <!--SPM:<SharePoint:StartScript runat="server"/>-->
         <!--MS:<SharePoint:CssLink runat="server" Version="15">-->
             <!--PS: Start Preview-->
-            <link href="https://microexcel1.sharepoint.com/_layouts/15/1033/styles/Themable/corev15.css" rel="stylesheet" type="text/css" />
-            <link href="https://microexcel1.sharepoint.com/_layouts/15/1033/styles/OLD/Themable/layouts.css" rel="stylesheet" type="text/css" />
-            <link href="https://microexcel1.sharepoint.com/_layouts/15/1033/styles/Themable/searchv15.css" rel="stylesheet" type="text/css" />
+            <link href="<%= url %>/_layouts/15/1033/styles/Themable/corev15.css" rel="stylesheet" type="text/css" />
+            <link href="<%= url %>/_layouts/15/1033/styles/OLD/Themable/layouts.css" rel="stylesheet" type="text/css" />
+            <link href="<%= url %>/_layouts/15/1033/styles/Themable/searchv15.css" rel="stylesheet" type="text/css" />
             <!--PE: End Preview-->
         <!--ME:</SharePoint:CssLink>-->
         <!--SPM:<SharePoint:CacheManifestLink runat="server"/>-->
@@ -43,20 +41,20 @@ To build the master page directly from this HTML file, simply edit the page as y
 
         <!-- *** Custom JavaScript Files *** -->
 
-        <!--MS:<SharePoint:ScriptLink language="javascript" name="~sitecollection/_catalogs/masterpage/Branding/libraries/jquery/index.js" Defer="true" runat="server" Localizable="false">-->
+        <!--MS:<SharePoint:ScriptLink language="javascript" name="~sitecollection/_catalogs/masterpage/<%= client %>/libraries/jquery/index.js" Defer="true" runat="server" Localizable="false">-->
         <!--ME:</SharePoint:ScriptLink>-->
 
-        <!--MS:<SharePoint:ScriptLink language="javascript" name="~sitecollection/_catalogs/masterpage/Branding/libraries/SPServices/index.js" Defer="true" runat="server" Localizable="false">-->
+        <!--MS:<SharePoint:ScriptLink language="javascript" name="~sitecollection/_catalogs/masterpage/<%= client %>/libraries/SPServices/index.js" Defer="true" runat="server" Localizable="false">-->
         <!--ME:</SharePoint:ScriptLink>-->
 
-        <!--MS:<SharePoint:ScriptLink language="javascript" name="~sitecollection/_catalogs/masterpage/Branding/js/main.min.js" Defer="true" runat="server" Localizable="false">-->
+        <!--MS:<SharePoint:ScriptLink language="javascript" name="~sitecollection/_catalogs/masterpage/<%= client %>/js/main.min.js" Defer="true" runat="server" Localizable="false">-->
         <!--ME:</SharePoint:ScriptLink>-->
         
 
         <!--SPM:<SharePoint:CustomJSUrl runat="server"/>-->
         <!--MS:<SharePoint:SoapDiscoveryLink runat="server">-->
             <!--PS: Start Preview-->
-            <link href="https://microexcel1.sharepoint.com/_vti_bin/spsdisco.aspx" rel="alternate" type="text/xml" />
+            <link href="<%= url %>/_vti_bin/spsdisco.aspx" rel="alternate" type="text/xml" />
             <!--PE: End Preview-->
         <!--ME:</SharePoint:SoapDiscoveryLink>-->
 
@@ -74,10 +72,10 @@ To build the master page directly from this HTML file, simply edit the page as y
 
         <!-- *** Custom CSS Files *** -->
 
-        <!--MS:<SharePoint:CssRegistration Name="&#60;% $SPUrl:~sitecollection/_catalogs/masterpage/Branding/css/style.min.css %&#62;" After="Themable/corev15.css" runat="server">-->
+        <!--MS:<SharePoint:CssRegistration Name="&#60;% $SPUrl:~sitecollection/_catalogs/masterpage/<%= client %>/css/style.min.css %&#62;" After="Themable/corev15.css" runat="server">-->
         <!--ME:</SharePoint:CssRegistration>-->
 
-        <!--MS:<SharePoint:CssRegistration Name="&#60;% $SPUrl:~sitecollection/_catalogs/masterpage/Branding/css/style.min.css %&#62;" After="Themable/Controls15.css" runat="server">-->
+        <!--MS:<SharePoint:CssRegistration Name="&#60;% $SPUrl:~sitecollection/_catalogs/masterpage/<%= client %>/css/style.min.css %&#62;" After="Themable/Controls15.css" runat="server">-->
         <!--ME:</SharePoint:CssRegistration>-->
 
 
@@ -93,14 +91,14 @@ To build the master page directly from this HTML file, simply edit the page as y
 <mso:HtmlDesignAssociated msdt:dt="string">1</mso:HtmlDesignAssociated>
 <mso:HtmlDesignFromMaster msdt:dt="string"></mso:HtmlDesignFromMaster>
 <mso:HtmlDesignConversionSucceeded msdt:dt="string">True</mso:HtmlDesignConversionSucceeded>
-<mso:HtmlDesignStatusAndPreview msdt:dt="string">https://microexcel1.sharepoint.com/sites/devEnvironment/_catalogs/masterpage/custom.html, Conversion successful.</mso:HtmlDesignStatusAndPreview>
+<mso:HtmlDesignStatusAndPreview msdt:dt="string"><%= url %>/<%= collection %>/_catalogs/masterpage/custom.html, Conversion successful.</mso:HtmlDesignStatusAndPreview>
 </mso:CustomDocumentProperties>
 </xml><![endif]-->
         
     </head>
     <body>
         <div id="ms-designer-ribbon">
-            <!--SPM:<%@Register Tagprefix="SharePoint" Namespace="Microsoft.SharePoint.WebControls" Assembly="Microsoft.SharePoint, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c"%>-->
+            <!--SPM:<%- openTag %>Register Tagprefix="SharePoint" Namespace="Microsoft.SharePoint.WebControls" Assembly="Microsoft.SharePoint, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c"<%- closeTag %>-->
             <div id="TurnOnAccessibility" style="display:none" class="s4-notdlg noindex">
                 <a id="linkTurnOnAcc" href="#" class="ms-accessible ms-acc-button" onclick="SetIsAccessibilityFeatureEnabled(true);UpdateAccessibilityUI();document.getElementById('linkTurnOffAcc').focus();return false;">
                     <!--MS:<SharePoint:EncodedLiteral runat="server" text="&#60;%$Resources:wss,master_turnonaccessibility%&#62;" EncodeMethod="HtmlEncode">-->
@@ -124,7 +122,7 @@ To build the master page directly from this HTML file, simply edit the page as y
                 <div>
                     <main class="main_container">
                         <!--CS: Start PlaceHolderMain Snippet-->
-                        <!--SPM:<%@Register Tagprefix="SharePoint" Namespace="Microsoft.SharePoint.WebControls" Assembly="Microsoft.SharePoint, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c"%>-->
+                        <!--SPM:<%- openTag %>Register Tagprefix="SharePoint" Namespace="Microsoft.SharePoint.WebControls" Assembly="Microsoft.SharePoint, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c"<%- closeTag %>-->
                         <!--MS:<SharePoint:AjaxDelta id="DeltaPlaceHolderMain" IsMainContent="true" runat="server">-->
                             <!--MS:<asp:ContentPlaceHolder ID="PlaceHolderMain" runat="server">-->
                                 <div class="DefaultContentBlock" style="border:medium black solid; background:yellow; color:black;">

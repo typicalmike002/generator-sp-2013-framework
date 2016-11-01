@@ -1,7 +1,7 @@
 {
   "name": "generator-sp-2013-framework",
-  "version": "0.0.0",
-  "description": "A framework for building customized SharePoint branding solutions.",
+  "version": "0.0.1",
+  "description": "Yeoman Generator for the SP2013Framework.",
   "homepage": "",
   "files": [
     "generators"

@@ -37,7 +37,7 @@ module.exports = yeoman.Base.extend({
         name: 'url',
         message: 'SharePoint Url',
         default: 'SITEURL'
-      },
+      }
     ];
 
     return this.prompt(prompts).then(function (props) {
@@ -76,12 +76,35 @@ module.exports = yeoman.Base.extend({
         }
       );
 
+      var that = this;
+
+      // custom.html
+      this.fs.copyTpl(
+        this.templatePath('dynamic/Build/html/custom.html'),
+        this.destinationPath('Build/html/custom.html'), {
+          openTag:'<%@',
+          closeTag: '%>',
+          url: (function(){
+            return that.props.url.split('/').slice(0,3).join('/');
+          }()),
+          collection: (function(){
+            return that.props.url.split('/').slice(3).join('/');
+          }()),
+          client: that.props.client
+        }
+      );
+
       // All other static files (no variables to inject)
       this.fs.copy(
         this.templatePath('static/**/*.*'),
         this.destinationRoot()
       );
-      
+
+      // All other static files with no name.
+      this.fs.copy(
+        this.templatePath('static/**/.*'),
+        this.destinationRoot()
+      );
     }
   },
 
