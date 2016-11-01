@@ -76,7 +76,7 @@ module.exports = yeoman.Base.extend({
         }
       );
 
-      var that = this;
+      var that = this; // Needed for custom.html
 
       // custom.html
       this.fs.copyTpl(
