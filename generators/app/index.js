@@ -4,6 +4,7 @@ var chalk = require('chalk');
 var yosay = require('yosay');
 var fs = require('fs');
 var path = require('path');
+var crypto = require('crypto');
 
 module.exports = yeoman.Base.extend({
   prompting: function(){
@@ -48,6 +49,7 @@ module.exports = yeoman.Base.extend({
 
   writing: {
     config: function(){
+      
 
       // Package.json
       this.fs.copyTpl(
@@ -65,18 +67,29 @@ module.exports = yeoman.Base.extend({
         }
       );
 
+      // Encrypts the password
+      var password = (function(){
+        var cipher = crypto.createCipher('aes192', 'password');
+        var encrypted = cipher.update(this.props.password, 'utf8', 'hex');
+        encrypted += cipher.final('hex');
+        return encrypted;
+      }).bind(this)();
+
+      
       // sharepoint.config.json
       this.fs.copyTpl(
         this.templatePath('dynamic/sharepoint.config.json'),
         this.destinationPath('sharepoint.config.json'), {
           username: this.props.username,
-          password: this.props.password,
+          password: password,
           url: this.props.url,
           client: this.props.client
         }
       );
 
-      var that = this; // Needed for custom.html
+      // seperates the site collection from the full url:
+      var url = this.props.url.split('/').slice(0,3).join('/');
+      var collection = this.props.url.split('/').slice(3).join('/');
 
       // custom.html
       this.fs.copyTpl(
@@ -84,13 +97,9 @@ module.exports = yeoman.Base.extend({
         this.destinationPath('Build/html/custom.html'), {
           openTag:'<%@',
           closeTag: '%>',
-          url: (function(){
-            return that.props.url.split('/').slice(0,3).join('/');
-          }()),
-          collection: (function(){
-            return that.props.url.split('/').slice(3).join('/');
-          }()),
-          client: that.props.client
+          url: url,
+          collection: collection,
+          client: this.props.client
         }
       );
 

@@ -10,16 +10,25 @@ var gulp = require('gulp'),
     sp = require('./sharepoint.config.json'),
     sppull = require('sppull').sppull,
     colors = require('colors'),
-    del = require('del');
+    del = require('del'),
+    crypto = require('crypto');
 
 var onError = function(err){
     console.log(err);
     this.emit('end');
 };
 
+var password = (function(){
+    var decipher = crypto.createDecipher('aes192', 'password');
+    var encrypted = sp.password;
+    var decrypted = decipher.update(encrypted, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+    return decrypted;
+})();
+
 var creds = {
     username: sp.username,
-    password: sp.password
+    password: password
 };
 
 
@@ -138,8 +147,6 @@ gulp.task('push:js', ['compile:js', 'push:ts'], function(){
             errorHandler: onError
         }))
         .pipe(spsave({
-            username    : sp.username,
-            password    : sp.password,
             siteUrl     : sp.siteUrl,
             folder      : sp.dir.branding + '/js/',
             flatten     : false
@@ -159,8 +166,6 @@ gulp.task('push:libraries', function(){
             errorHandler: onError
         }))
         .pipe(spsave({
-            username    : sp.username,
-            password    : sp.password,
             siteUrl     : sp.siteUrl,
             folder      : sp.dir.branding + '/libraries/',
             flatten     : false
@@ -180,8 +185,6 @@ gulp.task('push:misc', function(){
             errorHandler: onError
         }))
         .pipe(spsave({
-            username    : sp.username,
-            password    : sp.password,
             siteUrl     : sp.siteUrl,
             folder      : sp.dir.branding,
             flatten     : false
@@ -201,8 +204,6 @@ gulp.task('push:masterpage', function(){
             errorHandler: onError
         }))
         .pipe(spsave({
-            username    : sp.username,
-            password    : sp.password,
             siteUrl     : sp.siteUrl,
             folder      : sp.dir.branding,
             flatten     : false
@@ -228,8 +229,6 @@ gulp.task('push:webparts', ['compile:js', 'push:ts'], function(){
             var webpartFolder = path.basename(file.path).replace(/\.(.*?)$/, '');
             return gulp.src(file.path)
                 .pipe(spsave({
-                    username    : sp.username,
-                    password    : sp.password,
                     siteUrl     : sp.siteUrl,
                     folder      : sp.dir.webparts + '/' + webpartFolder,
                     flatten     : false
@@ -254,8 +253,6 @@ gulp.task('push:config', function(){
         errorHandler: onError
     }))
     .pipe(spsave({
-        username    : sp.username,
-        password    : sp.password,
         siteUrl     : sp.siteUrl,
         folder      : sp.dir.branding + '/config/',
         flatten     : false
@@ -275,8 +272,6 @@ gulp.task('push:ts', function(){
         errorHandler: onError
     }))
     .pipe(spsave({
-        username    : sp.username,
-        password    : sp.password,
         siteUrl     : sp.siteUrl,
         folder      : sp.dir.branding + '/js/ts/',
         flatten     : false
@@ -296,8 +291,6 @@ gulp.task('push:sass', function(){
         errorHandler: onError
     }))
     .pipe(spsave({
-        username    : sp.username,
-        password    : sp.password,
         siteUrl     : sp.siteUrl,
         folder      : sp.dir.branding + '/css/sass/',
         flatten     : false
@@ -326,7 +319,7 @@ gulp.task('push:sharepoint', ['push:css', 'push:js', 'push:webparts', 'push:misc
 
 var spPullCreds = {
     username: sp.username,
-    password: sp.password,
+    password: password,
     siteUrl: sp.siteUrl
 };
 
