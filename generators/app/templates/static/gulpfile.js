@@ -17,6 +17,11 @@ var onError = function(err){
     this.emit('end');
 };
 
+var creds = {
+    username: sp.username,
+    password: sp.password
+};
+
 
 
 
@@ -115,12 +120,10 @@ gulp.task('push:css', ['compile:css', 'push:sass'], function(){
             errorHandler: onError
         }))
         .pipe(spsave({
-            username    : sp.username,
-            password    : sp.password,
             siteUrl     : sp.siteUrl,
             folder      : sp.dir.branding + '/css/',
             flatten     : false
-        }))
+        }, creds))
 });
 
 
@@ -140,7 +143,7 @@ gulp.task('push:js', ['compile:js', 'push:ts'], function(){
             siteUrl     : sp.siteUrl,
             folder      : sp.dir.branding + '/js/',
             flatten     : false
-        }))
+        }, creds))
 });
 
 
@@ -161,7 +164,7 @@ gulp.task('push:libraries', function(){
             siteUrl     : sp.siteUrl,
             folder      : sp.dir.branding + '/libraries/',
             flatten     : false
-        }))
+        }, creds))
 });
 
 
@@ -182,7 +185,7 @@ gulp.task('push:misc', function(){
             siteUrl     : sp.siteUrl,
             folder      : sp.dir.branding,
             flatten     : false
-        }))
+        }, creds))
 });
 
 
@@ -203,7 +206,7 @@ gulp.task('push:masterpage', function(){
             siteUrl     : sp.siteUrl,
             folder      : sp.dir.branding,
             flatten     : false
-        }))
+        }, creds))
 });
 
 
@@ -230,7 +233,7 @@ gulp.task('push:webparts', ['compile:js', 'push:ts'], function(){
                     siteUrl     : sp.siteUrl,
                     folder      : sp.dir.webparts + '/' + webpartFolder,
                     flatten     : false
-                }))
+            }, creds))
         }))
 });
 
@@ -256,7 +259,7 @@ gulp.task('push:config', function(){
         siteUrl     : sp.siteUrl,
         folder      : sp.dir.branding + '/config/',
         flatten     : false
-    }))
+    }, creds))
 });
 
 
@@ -277,7 +280,7 @@ gulp.task('push:ts', function(){
         siteUrl     : sp.siteUrl,
         folder      : sp.dir.branding + '/js/ts/',
         flatten     : false
-    }))
+    }, creds))
 });
 
 
@@ -298,7 +301,7 @@ gulp.task('push:sass', function(){
         siteUrl     : sp.siteUrl,
         folder      : sp.dir.branding + '/css/sass/',
         flatten     : false
-    }))
+    }, creds))
 });
 
 
