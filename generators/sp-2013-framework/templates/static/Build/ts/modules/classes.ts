@@ -11,7 +11,6 @@
 'use strict';
 
 export class SPCamlQuery {
-
     private query: string;
     private listName: string;
     private onSuccess: Function;
@@ -23,42 +22,22 @@ export class SPCamlQuery {
         this.query = query;
     };
 
-    /**
-     * Method: getData
-     *
-     * getData(onSuccess);
-     *
-     * Params: 
-     *     - onSuccess: callback function to execute on success.
-     */
-
     public getData(onSuccess: Function): void {
-
-        // Attaches the callback function to the class:
         this.onSuccess = onSuccess;
-
-        // Sets the clientContext for retrieving list items:
         this.clientContext = SP.ClientContext.get_current();
 
-        // Gets the list from SharePoint:
         let oList: any = this.clientContext.get_web().get_lists().getByTitle(this.listName);
-
-        // Prepares the query to run on the list:
         let spCamlQuery: any = new SP.CamlQuery();
+
         spCamlQuery.set_viewXml(this.query);
         this.collListItem = oList.getItems(spCamlQuery);
 
-        // Executes the query and triggers callback functions:
         this.clientContext.load(this.collListItem);
         this.clientContext.executeQueryAsync(
             Function.createDelegate(this, this.onSuccess),
             Function.createDelegate(this, this.onFail)
         );
     };
-
-    /**
-     * Private Method onFail
-     */
 
     private onFail(sender: any, args: any): void {
         console.log('The ' + this.listName + ' query failed:\n' +
@@ -78,10 +57,6 @@ export class SPCamlQuery {
  * Params:
  *     - listName(string): Name of the sharepoint document library to query.
  *     - query: Array of values to pull from the listName.
- *
- * Dependencies: 
- *     - jQuery
- *     - sp.js
  */
 
 export class SPajaxQuery {
@@ -94,17 +69,7 @@ export class SPajaxQuery {
         this.query = query;
     };
 
-    /**
-     * Method: getData(onSuccess)
-     *
-     * Params:
-     * 
-     * - onSuccess: Function to return if ajax returns successfully.
-     */
-
     public getData(onSuccess: Function): void {
-
-        // Prepares url string for ajax:
         const restUrl: string = _spPageContextInfo.webAbsoluteUrl
             + "/_api/web/lists/getByTitle('"
             + this.listName
@@ -138,14 +103,8 @@ export class SPajaxQuery {
  * SPServicesJsonQuery(listName, {...settings})
  *
  * Params:
- *    - listName: String containing the list name to perform a query on.
- *
  *    - settings: Object containing a list of settings:
  *                https://spservices.codeplex.com/wikipage?title=$().SPServices.SPGetListItemsJson
- *
- * Dependencies: 
- *    - jquery
- *    - jquery.SPServices
  */
 
 export class SPServicesJsonQuery {
@@ -154,13 +113,7 @@ export class SPServicesJsonQuery {
 
     constructor(settings: Object) {
         this.settings = settings;
-    }
-
-    /**
-     * Method: getData(onSuccess)
-     *
-     * - onSuccess: Function to execute after query is successful.
-     */
+    };
 
     public getData(onSuccess: Function): void {
 
@@ -171,5 +124,5 @@ export class SPServicesJsonQuery {
         }).fail(function(errorThrown: Object): void {
             console.log('The SPServicesJsonQuery on: ' + this.listName + ' list failed.\n' + errorThrown);
         });
-    }
-}
+    };
+};

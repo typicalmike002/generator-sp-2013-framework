@@ -6,7 +6,7 @@
   "files": [
     "generators"
   ],
-  "main": "generators/app/index.js",
+  "main": "generators/sp-2013-framework/index.js",
   "keywords": [
     "",
     "yeoman-generator"

@@ -32,8 +32,6 @@ var creds = {
 };
 
 
-
-
 /**
  * Matchdep
  * 
@@ -46,13 +44,8 @@ require('matchdep').filterDev('gulp*').forEach(function( module ) {
 });
 
 
-
-
 /**
  * gulp watch
- *
- * - Multiple push tasks are used to reduce the
- *   amount of time each change will takes to compile.
  */
 
 gulp.task('watch', function(){
@@ -75,13 +68,8 @@ gulp.task('watch', function(){
 });
 
 
-
-
 /**
  * gulp compile:css
- *
- * - Generates a .css and .min.css version of the 
- *   resulting css.  
  */
 
 gulp.task('compile:css', function(){
@@ -102,12 +90,8 @@ gulp.task('compile:css', function(){
 });
 
 
-
-
 /**
  * gulp compile:js
- *
- * - See the ./webpack.config.js file to view JavaScript Compiling options. 
  */
 
 gulp.task('compile:js', function(){
@@ -115,8 +99,6 @@ gulp.task('compile:js', function(){
         .pipe(webpack(require('./webpack.config.js')))
         .pipe(gulp.dest('./Branding/js'))
 });
-
-
 
 
 /**
@@ -135,8 +117,6 @@ gulp.task('push:css', ['compile:css', 'push:sass'], function(){
         }, creds))
 });
 
-
-
 /**
  * gulp push:js
  */
@@ -152,8 +132,6 @@ gulp.task('push:js', ['compile:js', 'push:ts'], function(){
             flatten     : false
         }, creds))
 });
-
-
 
 
 /**
@@ -173,8 +151,6 @@ gulp.task('push:libraries', function(){
 });
 
 
-
-
 /**
  * gulp push:misc
  */
@@ -192,8 +168,6 @@ gulp.task('push:misc', function(){
 });
 
 
-
-
 /**
  * gulp push:masterpage
  */
@@ -209,8 +183,6 @@ gulp.task('push:masterpage', function(){
             flatten     : false
         }, creds))
 });
-
-
 
 
 /**
@@ -237,8 +209,6 @@ gulp.task('push:webparts', ['compile:js', 'push:ts'], function(){
 });
 
 
-
-
 /**
  * gulp push:config
  */
@@ -260,8 +230,6 @@ gulp.task('push:config', function(){
 });
 
 
-
-
 /**
  * gulp push:ts
  */
@@ -277,8 +245,6 @@ gulp.task('push:ts', function(){
         flatten     : false
     }, creds))
 });
-
-
 
 
 /**
@@ -298,8 +264,6 @@ gulp.task('push:sass', function(){
 });
 
 
-
-
 /**
  * gulp push:sharepoint
  * 
@@ -307,8 +271,6 @@ gulp.task('push:sass', function(){
  */
 
 gulp.task('push:sharepoint', ['push:css', 'push:js', 'push:webparts', 'push:misc', 'push:masterpage', 'push:config', 'push:libraries']);
-
-
 
 
 /**
@@ -322,8 +284,6 @@ var spPullCreds = {
     password: password,
     siteUrl: sp.siteUrl
 };
-
-
 
 
 /**
@@ -343,8 +303,6 @@ var onPullError = function(err){
 }
 
 
-
-
 /**
  * gulp pull:masterpage
  */
@@ -361,8 +319,6 @@ gulp.task('pull:masterpage', function(){
     ).then(onPullComplete)
      .catch(onPullError);
 });
-
-
 
 
 /**
@@ -396,8 +352,6 @@ gulp.task('pull:webparts', function(){
     })
     .catch(onPullError);
 });
-
-
 
 
 /**
@@ -438,8 +392,6 @@ gulp.task('pull:css', function(){
 });
 
 
-
-
 /**
  * gulp pull:js
  */
@@ -476,8 +428,6 @@ gulp.task('pull:js', function(){
 });
 
 
-
-
 /**
  * gulp pull:config
  */
@@ -498,8 +448,6 @@ gulp.task('pull:config', function(){
 });
 
 
-
-
 /**
  * gulp pull:libraries
  */
@@ -514,8 +462,6 @@ gulp.task('pull:libraries', function(){
     .catch(onPullError)
 });
 
-
-
 /**
  * gulp pull:images
  */
@@ -529,8 +475,6 @@ gulp.task('pull:images', function(){
     .then(onPullComplete)
     .catch(onPullError)
 });
-
-
 
 /**
  * gulp pull:fonts

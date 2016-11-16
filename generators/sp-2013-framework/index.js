@@ -10,34 +10,35 @@ module.exports = yeoman.Base.extend({
   prompting: function(){
 
     // Have Yeoman greet the developer.
-    this.log(yosay(
-      'Welcome to ' + chalk.green('SP2013Framework') + '!!!'
+    this.log(yosay( ''
+      + 'Welcome to ' + chalk.green('sp-2013-framework') + '!!!\n'
+      + 'Modern JavaScript tools for SharePoint 2013.'
     ));
 
     var prompts = [
       {
         type: 'input',
         name: 'client',
-        message: 'Client Name',
+        message: 'First, please enter a name for this project.',
         default: this.appname
       },
       {
         type: 'input',
+        name: 'url',
+        message: 'Now I need a valid SharePoint url.',
+        default: 'ERROR: Site URL not specifed.'
+      },
+      {
+        type: 'input',
         name: 'username',
-        message: 'SP Username',
-        default: 'USERNAME'
+        message: 'Next, I need a username with a permission level of atleast Contribute.',
+        default: 'ERROR: Username not specified.'
       },
       {
         type: 'input',
         name: 'password',
-        message: 'SP Password',
-        default: 'PASSWORD'
-      }, 
-      {
-        type: 'input',
-        name: 'url',
-        message: 'SharePoint Url',
-        default: 'SITEURL'
+        message: 'And finally, the password.',
+        default: 'ERROR: Password not specified.'
       }
     ];
 
