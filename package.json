@@ -12,8 +12,10 @@
     "yeoman-generator"
   ],
   "dependencies": {
-    "yeoman-generator": "^0.23.0",
     "chalk": "^1.0.0",
+    "node-sp-auth": "^1.2.0",
+    "sp-request": "^2.0.3",
+    "yeoman-generator": "^0.23.0",
     "yosay": "^1.0.0"
   },
   "devDependencies": {

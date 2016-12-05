@@ -5,6 +5,7 @@ var yosay = require('yosay');
 var fs = require('fs');
 var path = require('path');
 var crypto = require('crypto');
+var spauth = require('node-sp-auth');
 
 module.exports = yeoman.Base.extend({
   prompting: function(){
@@ -26,19 +27,19 @@ module.exports = yeoman.Base.extend({
         type: 'input',
         name: 'url',
         message: 'Now I need a valid SharePoint url.',
-        default: 'ERROR: Site URL not specifed.'
+        default: 'WARNING: Site URL must be specifed.'
       },
       {
         type: 'input',
         name: 'username',
         message: 'Next, I need a username with a permission level of atleast Contribute.',
-        default: 'ERROR: Username not specified.'
+        default: 'WARNING: Username must be specified.'
       },
       {
         type: 'input',
         name: 'password',
         message: 'And finally, the password.',
-        default: 'ERROR: Password not specified.'
+        default: 'WARNING: Password must be specified.'
       }
     ];
 
@@ -50,75 +51,89 @@ module.exports = yeoman.Base.extend({
 
   writing: {
     config: function(){
+
+      var that = this;
       
+      // Tests the connection first before continuing.
+      spauth.getAuth(that.props.url, {
+        username: that.props.username,
+        password: that.props.password
+      })
+      .then(generateProjectFiles)
+      .catch(function(error){
+        console.log('\n' + error + '\n');
+        console.log('The installation failed to connect to a SharePoint site.  Make sure the credentials were entered correctly and try again.');
+      });
 
-      // Package.json
-      this.fs.copyTpl(
-        this.templatePath('dynamic/package.json'),
-        this.destinationPath('package.json'), {
-          client: this.props.client
-        }
-      );
 
-      // bower.json
-      this.fs.copyTpl(
-        this.templatePath('dynamic/bower.json'),
-        this.destinationPath('bower.json'), {
-          client: this.props.client
-        }
-      );
+      function generateProjectFiles(options){
 
-      // Encrypts the password
-      var password = (function(){
-        var cipher = crypto.createCipher('aes192', 'password');
-        var encrypted = cipher.update(this.props.password, 'utf8', 'hex');
-        encrypted += cipher.final('hex');
-        return encrypted;
-      }).bind(this)();
+        // Package.json
+        that.fs.copyTpl(
+          that.templatePath('dynamic/package.json'),
+          that.destinationPath('package.json'), {
+            client: that.props.client
+          }
+        );
 
-      
-      // sharepoint.config.json
-      this.fs.copyTpl(
-        this.templatePath('dynamic/sharepoint.config.json'),
-        this.destinationPath('sharepoint.config.json'), {
-          username: this.props.username,
-          password: password,
-          url: this.props.url,
-          client: this.props.client
-        }
-      );
+        // bower.json
+        that.fs.copyTpl(
+          that.templatePath('dynamic/bower.json'),
+          that.destinationPath('bower.json'), {
+            client: that.props.client
+          }
+        );
 
-      // seperates the site collection from the full url:
-      var url = this.props.url.split('/').slice(0,3).join('/');
-      var collection = this.props.url.split('/').slice(3).join('/');
+        // Encrypts the password
+        var password = (function(){
+          var cipher = crypto.createCipher('aes192', 'password');
+          var encrypted = cipher.update(that.props.password, 'utf8', 'hex');
+          encrypted += cipher.final('hex');
+          return encrypted;
+        }).bind(that)();
 
-      // custom.html
-      this.fs.copyTpl(
-        this.templatePath('dynamic/Build/html/custom.html'),
-        this.destinationPath('Build/html/custom.html'), {
-          openTag:'<%@',
-          closeTag: '%>',
-          url: url,
-          collection: collection,
-          client: this.props.client
-        }
-      );
+        
+        // sharepoint.config.json
+        that.fs.copyTpl(
+          that.templatePath('dynamic/sharepoint.config.json'),
+          that.destinationPath('sharepoint.config.json'), {
+            username: that.props.username,
+            password: password,
+            url: that.props.url,
+            client: that.props.client
+          }
+        );
 
-      // All other static files (no variables to inject)
-      this.fs.copy(
-        this.templatePath('static/**/*.*'),
-        this.destinationRoot()
-      );
+        // seperates the site collection from the full url:
+        var url = that.props.url.split('/').slice(0,3).join('/');
+        var collection = that.props.url.split('/').slice(3).join('/');
 
-      // All other static files with no name.
-      this.fs.copy(
-        this.templatePath('static/**/.*'),
-        this.destinationRoot()
-      );
+        // custom.html
+        that.fs.copyTpl(
+          that.templatePath('dynamic/Build/html/custom.html'),
+          that.destinationPath('Build/html/custom.html'), {
+            openTag:'<%@',
+            closeTag: '%>',
+            url: url,
+            collection: collection,
+            client: that.props.client
+          }
+        );
+
+        // All other static files (no variables to inject)
+        that.fs.copy(
+          that.templatePath('static/**/*.*'),
+          that.destinationRoot()
+        );
+
+        // All other static files with no name.
+        that.fs.copy(
+          that.templatePath('static/**/.*'),
+          that.destinationRoot()
+        );
+
+        that.installDependencies();
+      }
     }
-  },
-
-  install: function(){
-    this.installDependencies();
   }
 });
