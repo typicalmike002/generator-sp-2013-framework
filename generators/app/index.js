@@ -12,15 +12,15 @@ module.exports = yeoman.Base.extend({
 
     // Have Yeoman greet the developer.
     this.log(yosay( ''
-      + 'Welcome to ' + chalk.green('sp-2013-framework') + '!!!\n'
-      + 'Modern JavaScript tools for SharePoint 2013.'
+      + 'Welcome to ' + chalk.green('sp-2013-framework') + '\n'
+      + 'Modern JavaScript tools for SharePoint 2013'
     ));
 
     var prompts = [
       {
         type: 'input',
         name: 'client',
-        message: 'First, please enter a name for this project.',
+        message: 'First, please enter the clients name.',
         default: this.appname
       },
       {
@@ -51,88 +51,86 @@ module.exports = yeoman.Base.extend({
 
   writing: {
     config: function(){
-
-      var that = this;
       
       // Tests the connection first before continuing.
-      spauth.getAuth(that.props.url, {
-        username: that.props.username,
-        password: that.props.password
+      spauth.getAuth(this.props.url, {
+        username: this.props.username,
+        password: this.props.password
       })
-      .then(generateProjectFiles)
+      .then(generateProjectFiles.call(this))
       .catch(function(error){
-        console.log('\n\n' + chalk.red('ERROR: Installation failed.') + '\n\n');
+        console.log('\n\n' + chalk.red('ERROR: Installation failed.') 
+            + 'sp-2013-framework failed when testing the connection to your sharepoint site.  The installation will continue but you will likely have to restart and try again.' + '\n\n');
         console.log('\n' + error + '\n');
       });
-
 
       function generateProjectFiles(options){
 
         // Package.json
-        that.fs.copyTpl(
-          that.templatePath('dynamic/package.json'),
-          that.destinationPath('package.json'), {
-            client: that.props.client
+        this.fs.copyTpl(
+          this.templatePath('dynamic/package.json'),
+          this.destinationPath('package.json'), {
+            client: this.props.client
           }
         );
 
         // bower.json
-        that.fs.copyTpl(
-          that.templatePath('dynamic/bower.json'),
-          that.destinationPath('bower.json'), {
-            client: that.props.client
+        this.fs.copyTpl(
+          this.templatePath('dynamic/bower.json'),
+          this.destinationPath('bower.json'), {
+            client: this.props.client
           }
         );
 
         // Encrypts the password
         var password = (function(){
           var cipher = crypto.createCipher('aes192', 'password');
-          var encrypted = cipher.update(that.props.password, 'utf8', 'hex');
+          var encrypted = cipher.update(this.props.password, 'utf8', 'hex');
           encrypted += cipher.final('hex');
           return encrypted;
-        }).bind(that)();
+        }).bind(this)();
 
         
         // sharepoint.config.json
-        that.fs.copyTpl(
-          that.templatePath('dynamic/sharepoint.config.json'),
-          that.destinationPath('sharepoint.config.json'), {
-            username: that.props.username,
+        this.fs.copyTpl(
+          this.templatePath('dynamic/sharepoint.config.json'),
+          this.destinationPath('sharepoint.config.json'), {
+            username: this.props.username,
             password: password,
-            url: that.props.url,
-            client: that.props.client
+            url: this.props.url,
+            client: this.props.client
           }
         );
 
         // seperates the site collection from the full url:
-        var url = that.props.url.split('/').slice(0,3).join('/');
-        var collection = that.props.url.split('/').slice(3).join('/');
+        var url = this.props.url.split('/').slice(0,3).join('/');
+        var collection = this.props.url.split('/').slice(3).join('/');
 
         // custom.html
-        that.fs.copyTpl(
-          that.templatePath('dynamic/Build/html/custom.html'),
-          that.destinationPath('Build/html/custom.html'), {
+        this.fs.copyTpl(
+          this.templatePath('dynamic/Build/html/custom.html'),
+          this.destinationPath('Build/html/custom.html'), {
             openTag:'<%@',
             closeTag: '%>',
             url: url,
             collection: collection,
-            client: that.props.client
+            client: this.props.client
           }
         );
 
         // All other static files (no variables to inject)
-        that.fs.copy(
-          that.templatePath('static/**/*.*'),
-          that.destinationRoot()
+        this.fs.copy(
+          this.templatePath('static/**/*.*'),
+          this.destinationRoot()
         );
 
         // All other static files with no name.
-        that.fs.copy(
-          that.templatePath('static/**/.*'),
-          that.destinationRoot()
+        this.fs.copy(
+          this.templatePath('static/**/.*'),
+          this.destinationRoot()
         );
 
-        that.installDependencies();
+        this.installDependencies();
       }
     }
   }
