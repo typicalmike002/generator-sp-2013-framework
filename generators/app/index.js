@@ -61,8 +61,8 @@ module.exports = yeoman.Base.extend({
       })
       .then(generateProjectFiles)
       .catch(function(error){
+        console.log('\n\n' + chalk.red('ERROR: Installation failed.') + '\n\n');
         console.log('\n' + error + '\n');
-        console.log('The installation failed to connect to a SharePoint site.  Make sure the credentials were entered correctly and try again.');
       });
 
 

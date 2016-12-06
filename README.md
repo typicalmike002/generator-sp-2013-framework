@@ -3,11 +3,12 @@
 
 ## Installation
 
-First, install [Yeoman](http://yeoman.io) and generator-sp-2013-framework using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
+First, install [Yeoman](http://yeoman.io) and generator-sp-2013-framework using [npm](https://www.npmjs.com/).  Since this generator is not public, you will have to use 'npm link' to manually point the source files to your local npm registry.  See [Yeoman](http://yeoman.io/authoring/) inside the <b>Running the generator</b> section for more details on npm link.
 
 ```bash
 npm install -g yo
-npm install -g generator-sp-2013-framework
+npm cd C:/Desktop/generator-sp-2013-framework
+npm link
 ```
 
 Then generate your new project:
@@ -27,10 +28,3 @@ yo sp-2013-framework
 
 MIT © [typicalmike002]()
 
-
-[npm-image]: https://badge.fury.io/js/generator-sp-2013-framework.svg
-[npm-url]: https://npmjs.org/package/generator-sp-2013-framework
-[travis-image]: https://travis-ci.org/typicalmike002/generator-sp-2013-framework.svg?branch=master
-[travis-url]: https://travis-ci.org/typicalmike002/generator-sp-2013-framework
-[daviddm-image]: https://david-dm.org/typicalmike002/generator-sp-2013-framework.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/typicalmike002/generator-sp-2013-framework
