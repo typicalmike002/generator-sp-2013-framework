@@ -129,9 +129,15 @@ module.exports = yeoman.Base.extend({
           this.templatePath('static/**/.*'),
           this.destinationRoot()
         );
-
-        this.installDependencies();
       }
     }
+  },
+
+  install: function () {
+    this.installDependencies({
+      callback: function(){
+        this.spawnCommand('typings', ['install']);
+      }.bind(this)
+    });
   }
 });
